@@ -1,0 +1,108 @@
+1. How to change port no in tomcat 
+
+STEP 1: Install tomcat in server
+
+sudo apt update----(update the repository)
+
+sudo apt install openjdk-8-jdk -y----(install Jdk)
+
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.tar.gz-----(tar.gz file)
+
+tar xvzf apache-tomcat-9.0.78.tar.gz-----(unzip the tar.gz)
+
+mv apache-tomcat-9.0.78  tomcat------(rename to tomcat)
+
+cd /etc/systemd/system 
+
+sudo nano tomcat.service-----(opens tomcat service)
+
+########################################################## (paste the below commands onto the service file)
+[Unit]
+
+ 
+
+Description=Apache Tomcat Web Application Container
+
+ 
+
+After=network.target
+
+ 
+
+ 
+
+[Service]
+
+ 
+
+Type=forking
+
+ 
+
+ 
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+
+ 
+
+Environment=CATALINA_PID=/home/ubuntu/tomcat/temp/tomcat.pid
+
+ 
+
+Environment=CATALINA_Home=/home/ubuntu/tomcat
+
+ 
+
+Environment=CATALINA_BASE=/home/ubuntu/tomcat
+
+ 
+
+Environment=’CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC’
+
+ 
+
+Environment=’JAVA_OPTS.awt.headless=true -Djava.security.egd=file:/dev/v/urandom ’
+
+ 
+
+ 
+
+ 
+
+ExecStart=/home/ubuntu/tomcat/bin/startup.sh
+
+ 
+
+ExecStop=/home/ubuntu/tomcat/bin/shutdown.sh
+
+ 
+
+ 
+
+RestartSec=10
+
+ 
+
+Restart=always
+
+ 
+
+[Install]
+
+ 
+
+WantedBy=multi-user.target
+
+ 
+
+#####################################################################((ctrl+s , ctrl+x) save and exit)
+sudo systemctl daemon-reload------------reloades daemon.
+sudo systemctl start tomcat.service--------startes tomcat service.
+sudo systemctl enbale tomcat.service-------enables tomcat service.
+sudo systemctl status tomcat ---------checks the status of tomcat.
+
+STEP2: come to home directory where Tomcat is located
+STEP3: Inside Tomcat go inside config file (cd conf)
+STEP4: Inside conf file edit the service.xml file (nano service.xml)
+Step5: Inside service.xml file edit the connecting port to the desired no save and exit (ctrl+s, ctrl+x)
+STEP6: IF not working change even the below port no to desired one.
